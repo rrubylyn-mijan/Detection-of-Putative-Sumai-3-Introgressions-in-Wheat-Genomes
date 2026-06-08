@@ -31,12 +31,9 @@ It was used as part of the comparative genomics analysis of reference-s, query-r
 ## Usage
 This script is for the whole-genome alignments that were generated using Minimap2 (alignment pipeline available in this repository: https://github.com/rrubylyn-mijan/whole-genome-and-chromosome-alignment-workflow-with-minimap2). 
 
-
-```r
-# -----------------------------
-# 1. Filter PAF alignments
-# -----------------------------
-
+---
+## 1. Filter PAF alignments
+```bash
 awk 'BEGIN{OFS="\t"}
 {
     identity="NA"
@@ -52,12 +49,11 @@ awk 'BEGIN{OFS="\t"}
         print $6, $8, $9, identity, $11, $12
     }
 }' frj_wheat_chr_1-7.paf > query_reference.filtered.alignments.bed
+```
 
 
-# -----------------------------
-# 2. Keep high-identity alignments
-# -----------------------------
-
+## 2. Keep high-identity alignments
+```bash
 awk 'BEGIN{OFS="\t"} $4 >= 99.5 && $5 >= 20000 && $6 >= 60 {
     print $1,$2,$3,$4,$5,$6
 }' query_reference.filtered.alignments.bed > query-1_reference.high_identity.alignments.bed
@@ -66,7 +62,10 @@ awk 'BEGIN{OFS="\t"} $4 >= 99.5 && $5 >= 20000 && $6 >= 60 {
 # Description: Identifies high-identity reference-like genomic regions in query-1 or query-2
 # Input: BED-like filtered alignment file from minimap2 PAF
 # Output: Introgression summary tables and genome-wide ideogram
+```
 
+## 2. Visualization in R
+```bash
 library(ggplot2)
 library(dplyr)
 library(readr)
