@@ -64,7 +64,7 @@ awk 'BEGIN{OFS="\t"} $4 >= 99.5 && $5 >= 20000 && $6 >= 60 {
 # Output: Introgression summary tables and genome-wide ideogram
 ```
 
-## 2. Visualization in R
+## 3. Visualization in R
 ```bash
 library(ggplot2)
 library(dplyr)
