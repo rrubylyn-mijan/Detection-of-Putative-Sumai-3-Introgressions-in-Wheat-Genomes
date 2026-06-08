@@ -51,7 +51,7 @@ awk 'BEGIN{OFS="\t"}
     if(identity != "NA" && $12 >= 60 && $11 >= 20000 && $1 == $6){
         print $6, $8, $9, identity, $11, $12
     }
-}' frj_rollag_chr_1-7.paf > rollag_sumai3.filtered.alignments.bed
+}' frj_wheat_chr_1-7.paf > query_reference.filtered.alignments.bed
 
 
 # -----------------------------
@@ -60,10 +60,10 @@ awk 'BEGIN{OFS="\t"}
 
 awk 'BEGIN{OFS="\t"} $4 >= 99.5 && $5 >= 20000 && $6 >= 60 {
     print $1,$2,$3,$4,$5,$6
-}' rollag_sumai3.filtered.alignments.bed > rollag_sumai3.high_identity.alignments.bed
+}' query_reference.filtered.alignments.bed > query-1_reference.high_identity.alignments.bed
 
-# Sumai 3 introgression detection from PAF alignment
-# Description: Identifies high-identity Sumai 3-like genomic regions in Rollag or Glenn
+# Introgression detection from PAF alignment
+# Description: Identifies high-identity reference-like genomic regions in query-1 or query-2
 # Input: BED-like filtered alignment file from minimap2 PAF
 # Output: Introgression summary tables and genome-wide ideogram
 
@@ -75,8 +75,8 @@ library(readr)
 # INPUT / OUTPUT
 # ============================================================
 
-blocks_file <- "rollag_sumai3.high_identity.alignments.bed"
-out_prefix <- "rollag_Sumai3_filtered_introgression"
+blocks_file <- "query-1_reference.high_identity.alignments.bed"
+out_prefix <- "query-1_reference_filtered_introgression"
 
 # ============================================================
 # FILTERING SETTINGS
@@ -89,7 +89,7 @@ min_mapq <- 60
 merge_gap <- 10000000
 min_final_block_size <- 10000000
 
-expected_sumai3_percent <- 6.25
+expected_reference_percent <- 6.25
 
 # ============================================================
 # CHROMOSOME ORDER
@@ -106,19 +106,19 @@ chr_order <- c(
 )
 
 # ============================================================
-# ROLLAG CHROMOSOME LENGTHS
+# QUERY-1 CHROMOSOME LENGTHS
 # ============================================================
 
 chr_lengths <- data.frame(
   Chr = chr_order,
   Chr_length = c(
-    606055407, 699657446, 500940736,
-    702503057, 817961735, 659974844,
-    759437862, 857184530, 627888914,
-    759207528, 696030165, 529208703,
-    804909466, 724514178, 585413074,
-    627955040, 741188918, 504798261,
-    751400886, 770610141, 654713047
+    606******, 699******, 500******,
+    702******, 817******, 659******,
+    759******, 857******, 627******,
+    759******, 696030165, 529208703,
+    804******, 724******, 585******,
+    627******, 741******, 504******,
+    751******, 770******, 654******
   )
 )
 
@@ -273,15 +273,15 @@ major_blocks <- merged_blocks %>%
 # ============================================================
 
 total_genome_bp <- sum(chr_lengths$Chr_length)
-expected_sumai3_bp <- total_genome_bp * expected_sumai3_percent / 100
+expected_reference_bp <- total_genome_bp * expected_reference_percent / 100
 
 observed_bp <- sum(major_blocks$BlockSize)
 observed_percent <- observed_bp / total_genome_bp * 100
 
 summary_total <- data.frame(
-  Total_rollag_genome_bp = total_genome_bp,
-  Expected_Sumai3_percent = expected_sumai3_percent,
-  Expected_Sumai3_bp = expected_sumai3_bp,
+  Total_query-1_genome_bp = total_genome_bp,
+  Expected_reference_percent = expected_reference_percent,
+  Expected_reference_bp = expected_reference_bp,
   Observed_filtered_bp = observed_bp,
   Observed_filtered_percent = observed_percent,
   Number_of_raw_alignments = nrow(raw_blocks),
@@ -322,7 +322,7 @@ write_tsv(major_blocks, paste0(out_prefix, "_major_blocks.tsv"))
 write_tsv(summary_total, paste0(out_prefix, "_summary_total.tsv"))
 write_tsv(summary_by_chr, paste0(out_prefix, "_summary_by_chr.tsv"))
 write_tsv(qtl_regions, paste0(out_prefix, "_major_FHB_QTL_regions.tsv"))
-write_tsv(translocation_regions, paste0(out_prefix, "_Rollag_2A_5A_translocation_regions.tsv"))
+write_tsv(translocation_regions, paste0(out_prefix, "_query-1_2A_5A_translocation_regions.tsv"))
 
 print(summary_total)
 print(summary_by_chr)
@@ -450,7 +450,7 @@ p <- ggplot() +
   scale_x_continuous(expand = c(0, 0)) +
   
   labs(
-    title = "Putative Sumai 3-like regions in Rollag with 2A/5A translocation",
+    title = "Putative reference-like regions in query-1 with 2A/5A translocation",
     subtitle = paste0(
       "Identity ≥ ", min_identity,
       "%; aligned length ≥ ", min_aligned_bp / 1e6,
@@ -498,8 +498,12 @@ The R script applies stricter filters to identify large, high-confidence Sumai 3
 The final plot shows putative introgression blocks, major FHB QTL regions, and the Rollag 2A/5A translocation.
 
 ## Example Output
-rollag_Sumai3_filtered_introgression_filtered_ideogram_with_translocation.png
-rollag_Sumai3_filtered_introgression_filtered_ideogram_with_translocation.pdf
-rollag_Sumai3_filtered_introgression_major_blocks.tsv
-rollag_Sumai3_filtered_introgression_summary_total.tsv
-rollag_Sumai3_filtered_introgression_summary_by_chr.tsv
+query-1_reference_filtered_introgression_filtered_ideogram_with_translocation.png
+query-1_reference_filtered_introgression_filtered_ideogram_with_translocation.pdf
+query-1_reference_filtered_introgression_major_blocks.tsv
+query-1_reference_filtered_introgression_summary_total.tsv
+query-1_reference_filtered_introgression_summary_by_chr.tsv
+
+Maintainer:
+
+Rubylyn Mijan
