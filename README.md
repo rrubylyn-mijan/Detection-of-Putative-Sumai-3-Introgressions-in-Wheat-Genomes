@@ -57,15 +57,15 @@ awk 'BEGIN{OFS="\t"}
 awk 'BEGIN{OFS="\t"} $4 >= 99.5 && $5 >= 20000 && $6 >= 60 {
     print $1,$2,$3,$4,$5,$6
 }' query_reference.filtered.alignments.bed > query-1_reference.high_identity.alignments.bed
-
-# Introgression detection from PAF alignment
-# Description: Identifies high-identity reference-like genomic regions in query-1 or query-2
-# Input: BED-like filtered alignment file from minimap2 PAF
-# Output: Introgression summary tables and genome-wide ideogram
 ```
 
 ## 3. Visualization in R
 ```bash
+# Introgression detection from PAF alignment
+# Description: Identifies high-identity reference-like genomic regions in query-1 or query-2
+# Input: BED-like filtered alignment file from minimap2 PAF
+# Output: Introgression summary tables and genome-wide ideogram
+
 library(ggplot2)
 library(dplyr)
 library(readr)
