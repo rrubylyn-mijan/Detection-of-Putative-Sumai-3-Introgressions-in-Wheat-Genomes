@@ -29,6 +29,9 @@ It was used as part of the comparative genomics analysis of reference-s, query-r
 
   
 ## Usage
+This script is for the whole-genome alignments that were generated using Minimap2 (alignment pipeline available in this repository: https://github.com/rrubylyn-mijan/whole-genome-and-chromosome-alignment-workflow-with-minimap2). 
+
+
 ```r
 # -----------------------------
 # 1. Filter PAF alignments
