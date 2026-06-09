@@ -494,7 +494,7 @@ print(p)
 The first awk script extracts same-chromosome alignments from the minimap2 PAF file.
 Sequence identity is calculated from the de:f: tag in the PAF file.
 The R script applies stricter filters to identify large, high-confidence Sumai 3-like genomic blocks.
-The final plot shows putative introgression blocks, major FHB QTL regions, and the Rollag 2A/5A translocation.
+The final plot shows putative introgression blocks, major FHB QTL regions, and the query-1 2A/5A translocation.
 
 ## Example Output
 query-1_reference_filtered_introgression_filtered_ideogram_with_translocation.png
